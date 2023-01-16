@@ -36,7 +36,7 @@ videojs.registerPlugin("hcpPlugin", function () {
     button.style.margin = "5px auto";
     button.style.cursor = "pointer";
     confirm.innerHTML =
-      "<div><div>By click the Confirm button, you verify yourself as qualified HCP</div>" +
+      "<div><div>By clicking the Confirm button, you verify yourself as qualified HCP</div>" +
       button.outerHTML +
       "</div>";
 
