@@ -36,7 +36,9 @@ videojs.registerPlugin("hcpPlugin", function () {
     button.style.margin = "5px auto";
     button.style.cursor = "pointer";
     confirm.innerHTML =
-      "<div><div>By clicking the Confirm button, you verify yourself as qualified HCP</div>" +
+      "<div>" +
+      +"<input type='checkbox' id='cb_patient' /> <label for='cb_patient'>I am a Cuvitru patient</label>" +
+      +"<input type='checkbox' id='cb_video' /> <label for='cb_patient'>I am authorised to watch the Cuvitru Administration video</label>" +
       button.outerHTML +
       "</div>";
 
@@ -45,9 +47,13 @@ videojs.registerPlugin("hcpPlugin", function () {
     document.getElementById("confirm-hcp").addEventListener(
       "click",
       function () {
-        gatekeeper.style.display = "none";
-        // Start video playback
-        myPlayer.play();
+        var cb_patient = document.getElementById("cb_patient");
+        var cb_video = document.getElementById("cb_video");
+        if (cb_patient.checked && cb_video.checked) {
+          gatekeeper.style.display = "none";
+          // Start video playback
+          myPlayer.play();
+        }
       },
       false
     );
