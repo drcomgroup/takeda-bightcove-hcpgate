@@ -11,7 +11,7 @@ videojs.registerPlugin("hcpPlugin", function () {
     gatekeeper.style.left = 0;
     gatekeeper.style.top = 0;
     gatekeeper.style.opacity = "0.9";
-    gatekeeper.style.fontSize = "26px";
+    gatekeeper.style.fontSize = "16px";
     gatekeeper.style.position = "absolute";
     gatekeeper.style.zIndex = "99999";
     var confirm = document.createElement("div");
@@ -35,24 +35,37 @@ videojs.registerPlugin("hcpPlugin", function () {
     button.style.padding = "4px 7px";
     button.style.margin = "5px auto";
     button.style.cursor = "pointer";
-    confirm.innerHTML =
+    var unnotice_style = "dotted 1px transparent";
+    var notice_style = "dotted 1px red";
+    var html =
       "<div>" +
-      +"<input type='checkbox' id='cb_patient' /> <label for='cb_patient'>I am a Cuvitru patient</label>" +
-      +"<input type='checkbox' id='cb_video' /> <label for='cb_patient'>I am authorised to watch the Cuvitru Administration video</label>" +
+      "<div style='margin-bottom:5px'><input type='checkbox' id='cb_patient' /> <label id='cb_patient_lbl' for='cb_patient' style='border-bottom: " +
+      unnotice_style +
+      "'>I am a Cuvitru patient</label></div>" +
+      "<div style='margin-bottom:5px'><input type='checkbox' id='cb_video' /> <label id='cb_video_lbl' for='cb_video' style='border-bottom: " +
+      unnotice_style +
+      "'>I am authorised to watch the Cuvitru Administration video</label></div>" +
       button.outerHTML +
       "</div>";
+    confirm.innerHTML = html;
 
-    // +++ Set up listening for when the user clicks the age verification text +++
-    // Listen for when the player has initial duration and dimension information
     document.getElementById("confirm-hcp").addEventListener(
       "click",
       function () {
         var cb_patient = document.getElementById("cb_patient");
         var cb_video = document.getElementById("cb_video");
+        var lbl_patient = document.getElementById("cb_patient_lbl");
+        var lbl_video = document.getElementById("cb_video_lbl");
+        lbl_patient.style.borderBottom = unnotice_style;
+        lbl_video.style.borderBottom = unnotice_style;
         if (cb_patient.checked && cb_video.checked) {
           gatekeeper.style.display = "none";
           // Start video playback
           myPlayer.play();
+        } else {
+          console.log('got to here');
+          if (!cb_patient.checked) lbl_patient.style.borderBottom = notice_style;
+          if (!cb_video.checked) lbl_video.style.borderBottom = notice_style;
         }
       },
       false
